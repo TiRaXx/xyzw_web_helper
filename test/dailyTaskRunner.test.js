@@ -704,3 +704,31 @@ test("pending counts include distinct supplemental failures without counting a f
   assert.equal(result.remainingTasks, 1);
   assert.equal(result.incomplete, 2);
 });
+
+test("getTaskState skips conditions missing from the official config instead of throwing", () => {
+  const f = fixture();
+  const runner = f.runner();
+  runner.roleData = f.role;
+  runner.taskConfig = config;
+  const logs = [];
+  runner.callbacks = { onLog: (entry) => logs.push(entry) };
+
+  // 已知条件仍返回真实服务器状态
+  const known = runner.getTaskState(4);
+  assert.equal(known.condition, 4);
+  assert.equal(known.status, "claimed");
+
+  // 缺失条件返回"跳过"占位状态，而不是中断整轮补差
+  const missing = runner.getTaskState(999);
+  assert.equal(missing.condition, 999);
+  assert.equal(missing.remaining, 0);
+  assert.equal(missing.status, "unknown");
+  assert.equal(missing.missing, true);
+
+  // 同一个缺失条件只警告一次
+  runner.getTaskState(999);
+  const warnings = logs.filter(
+    (entry) => entry.type === "warning" && String(entry.message).includes("999"),
+  );
+  assert.equal(warnings.length, 1);
+});
