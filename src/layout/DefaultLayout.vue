@@ -61,6 +61,14 @@
             <span>主线推关</span>
           </router-link>
           <router-link
+            to="/admin/Link-Games"
+            class="nav-item"
+            active-class="active"
+          >
+            <n-icon><GameController /></n-icon>
+            <span>在线游戏</span>
+          </router-link>
+          <router-link
             to="/admin/message-test"
             class="nav-item"
             active-class="active"
@@ -193,6 +201,14 @@
           <span>主线推关</span>
         </router-link>
         <router-link
+          to="/admin/Link-Games"
+          class="drawer-item"
+          @click="isMobileMenuOpen = false"
+        >
+          <n-icon><GameController /></n-icon>
+          <span>在线游戏</span>
+        </router-link>
+        <router-link
           to="/admin/message-test"
           class="drawer-item"
           @click="isMobileMenuOpen = false"
@@ -258,6 +274,7 @@ import {
   ChatbubbleEllipsesSharp,
   ChevronDown,
   Cube,
+  GameController,
   Home,
   Layers,
   LockOpen,

@@ -2,12 +2,12 @@ import type { ProtoMsg } from "@/utils/bonProtocol";
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import useIndexedDB from "@/hooks/useIndexedDB";
 import router from "@/router";
 import { g_utils } from "@/utils/bonProtocol";
-
 import { logInfo } from "@/utils/frontendLog";
+import { gameReservations, isGameTokenRunning } from "@/utils/gameReservations";
 import { gameLogger, tokenLogger, wsLogger } from "@/utils/logger";
 import { generateRandomSeed } from "@/utils/randomSeed";
 import {
@@ -341,6 +341,8 @@ export const useTokenStore = defineStore("tokens", () => {
       isConnecting,
       forceReconnect,
     });
+
+    if (isGameTokenRunning(tokenId)) return null;
 
     // 更新选中状态
     selectedTokenId.value = tokenId;
@@ -789,6 +791,7 @@ export const useTokenStore = defineStore("tokens", () => {
     base64Token: string,
     customWsUrl = null,
   ) => {
+    if (isGameTokenRunning(tokenId)) return null;
     wsLogger.info(`开始创建连接: ${tokenId}`);
 
     // 1. 获取连接锁，防止竞态条件
@@ -800,6 +803,10 @@ export const useTokenStore = defineStore("tokens", () => {
     }
 
     try {
+      if (isGameTokenRunning(tokenId)) {
+        releaseConnectionLock(tokenId, "connect");
+        return null;
+      }
       // 2. 检查跨标签页连接状态
       const crossTabState = checkCrossTabConnection(tokenId);
       if (crossTabState) {
@@ -821,6 +828,11 @@ export const useTokenStore = defineStore("tokens", () => {
         await closeWebSocketConnectionAsync(tokenId);
       }
 
+      if (isGameTokenRunning(tokenId)) {
+        updateCrossTabConnectionState(tokenId, "disconnected");
+        releaseConnectionLock(tokenId, "connect");
+        return null;
+      }
       // 5. 解析token
       const parseResult = parseBase64Token(base64Token);
       let actualToken;
@@ -845,6 +857,7 @@ export const useTokenStore = defineStore("tokens", () => {
       // 7. 创建新的WebSocket客户端（增强版）
       const wsClient = new XyzwWebSocketClient({
         url: wsUrl,
+        canConnect: () => !isGameTokenRunning(tokenId),
         utils: g_utils,
         heartbeatMs: 5000,
       });
@@ -882,6 +895,10 @@ export const useTokenStore = defineStore("tokens", () => {
       // 9. 设置事件监听（增强版）
       wsClient.onConnect = () => {
         if (!isCurrentConnection()) return;
+        if (isGameTokenRunning(tokenId)) {
+          closeWebSocketConnection(tokenId);
+          return;
+        }
         wsLogger.wsConnect(tokenId);
         logInfo("WS 连接成功", { tokenId, sessionId: currentSessionId, url: wsUrl });
         if (wsConnections.value[tokenId]) {
@@ -1049,6 +1066,24 @@ export const useTokenStore = defineStore("tokens", () => {
       wsLogger.error(`关闭连接异步操作失败 [${tokenId}]:`, error);
     });
   };
+
+  // A game reservation also stops assistant connections in other tabs.
+  watch(
+    gameReservations,
+    () => {
+      for (const [tokenId, connection] of Object.entries(wsConnections.value)) {
+        if (
+          isGameTokenRunning(tokenId) &&
+          connection.client &&
+          connection.status !== "disconnecting"
+        ) {
+          releaseConnectionLock(tokenId, "connect");
+          closeWebSocketConnection(tokenId);
+        }
+      }
+    },
+    { deep: true },
+  );
 
   const getWebSocketStatus = (tokenId: string) => {
     return wsConnections.value[tokenId]?.status || "disconnected";
@@ -1757,6 +1792,7 @@ export const useTokenStore = defineStore("tokens", () => {
     // WebSocket方法
     createWebSocketConnection,
     closeWebSocketConnection,
+    closeWebSocketConnectionAsync,
     getWebSocketStatus,
     getWebSocketClient,
     sendMessage,
