@@ -4,13 +4,18 @@
     <nav class="dashboard-nav">
       <div class="nav-container">
         <div class="nav-brand">
-          <img src="/icons/xiaoyugan.png" alt="XYZW" class="brand-logo" />
-          <div class="brand-toggle" @click="isMobileMenuOpen = true">
+          <img src="/icons/xiaoyugan.png" alt="战魂小助手" class="brand-logo" />
+          <span class="brand-text">战魂小助手</span>
+          <button
+            type="button"
+            class="brand-menu"
+            aria-label="打开导航菜单"
+            @click="isMobileMenuOpen = true"
+          >
             <n-icon>
               <Menu />
             </n-icon>
-            <span class="brand-text">XYZW 控制台</span>
-          </div>
+          </button>
         </div>
 
         <div class="nav-menu">
@@ -113,6 +118,12 @@
         </div>
 
         <div class="nav-user">
+          <!-- 联系小雪：宽屏展示，窄屏收进抽屉 -->
+          <div class="contact-chip" :title="`${contactLabel}：${contactValue}`">
+            <span class="contact-chip__emoji">💬</span>
+            <span class="contact-chip__text">联系小雪</span>
+          </div>
+
           <!-- 主题切换按钮 -->
           <ThemeToggle />
 
@@ -259,10 +270,24 @@
           </n-icon>
           <span>个人设置</span>
         </router-link>
+
+        <!-- 💬 有问题联系小雪（占位值集中在 @/constants/contact） -->
+        <div class="drawer-contact">
+          <span class="drawer-contact__emoji">💬</span>
+          <div class="drawer-contact__body">
+            <span class="drawer-contact__title">有问题联系小雪</span>
+            <span class="drawer-contact__meta">{{ contactLabel }}</span>
+            <span class="drawer-contact__value">{{ contactValue }}</span>
+          </div>
+        </div>
       </div>
     </n-drawer>
     <div class="main">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition name="page-fade" mode="out-in">
+          <component :is="Component" :key="route.path" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
@@ -285,14 +310,20 @@ import {
 import { useMessage } from "naive-ui";
 import { ref } from "vue";
 
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import ThemeToggle from "@/components/Common/ThemeToggle.vue";
+import { CONTACT_XIAOXUE, CONTACT_XIAOXUE_LABEL } from "@/constants/contact";
 import { selectedToken, useTokenStore } from "@/stores/tokenStore";
 import { isNowInLegionWarTime } from "@/utils/clubBattleUtils";
 
 const tokenStore = useTokenStore();
 const router = useRouter();
+const route = useRoute();
 const message = useMessage();
+
+// 联系方式占位符统一从 constants/contact 读取，替换品牌文案时无需改模板
+const contactValue = CONTACT_XIAOXUE;
+const contactLabel = CONTACT_XIAOXUE_LABEL;
 
 const isMobileMenuOpen = ref(false);
 
@@ -316,10 +347,13 @@ const handleUserAction = async (key) => {
 </script>
 
 <style scoped lang="scss">
-// 导航栏
+// 导航栏：奶油 / 深梅玻璃拟态
 .dashboard-nav {
-  background: var(--bg-primary);
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 6px 18px rgba(180, 130, 150, 0.08);
   padding: 0 var(--spacing-lg);
   position: sticky;
   top: 0;
@@ -338,32 +372,55 @@ const handleUserAction = async (key) => {
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: 10px;
   margin-right: 12px;
 }
 
 .brand-logo {
   width: 40px;
   height: 40px;
-  border-radius: var(--border-radius-small);
+  border-radius: 14px;
+  box-shadow: var(--clay-shadow-sm);
+  transition: transform var(--transition-normal);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+  }
 }
 
 .brand-text {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
   color: var(--text-primary);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
-.brand-toggle {
+.brand-menu {
   display: none;
   align-items: center;
-  gap: var(--spacing-xs);
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--primary-color);
   cursor: pointer;
-  font-size: var(--font-size-lg);
-}
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-circle);
+  box-shadow: var(--clay-shadow-sm);
+  transition:
+    transform var(--transition-normal),
+    background-color var(--transition-fast);
 
-.brand-toggle .n-icon {
-  font-size: inherit;
+  &:hover {
+    background: var(--bg-tertiary);
+    transform: scale(1.06);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
 }
 
 .nav-menu {
@@ -390,19 +447,25 @@ const handleUserAction = async (key) => {
   white-space: nowrap;
   flex-shrink: 0;
   font-size: 15px;
-  border-radius: var(--border-radius-medium);
+  border-radius: var(--radius-input);
   color: var(--text-secondary);
   text-decoration: none;
-  transition: all var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
 
   &:hover {
     background: var(--bg-tertiary);
     color: var(--text-primary);
+    transform: translateY(-1px);
   }
 
   &.active {
     background: var(--primary-color-light);
     color: var(--primary-color);
+    font-weight: var(--font-weight-semibold);
+    box-shadow: inset 0 0 0 1px rgba(255, 143, 177, 0.24);
   }
 }
 
@@ -413,14 +476,45 @@ const handleUserAction = async (key) => {
   gap: var(--spacing-md);
 }
 
+// 导航区「联系小雪」小胶囊（窄屏隐藏，改由抽屉承载）
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  cursor: default;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--clay-shadow-sm);
+  transition:
+    transform var(--transition-normal),
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+
+  &:hover {
+    color: var(--primary-color);
+    background: var(--bg-tertiary);
+    transform: translateY(-2px);
+  }
+
+  &__emoji {
+    font-size: 14px;
+    line-height: 1;
+  }
+}
+
 .user-info {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  border-radius: var(--border-radius-medium);
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: background var(--transition-fast);
+  transition: background-color var(--transition-fast);
 
   &:hover {
     background: var(--bg-tertiary);
@@ -430,6 +524,22 @@ const handleUserAction = async (key) => {
 .username {
   font-weight: var(--font-weight-medium);
   color: var(--text-primary);
+}
+
+@media (max-width: 1500px) {
+  .contact-chip {
+    padding: 6px 8px;
+  }
+
+  .contact-chip__text {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-chip {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -450,12 +560,23 @@ const handleUserAction = async (key) => {
     height: 56px;
   }
 
-  .brand-logo {
+  .brand-text {
+    font-size: var(--font-size-lg);
+  }
+
+  .brand-menu {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 480px) {
+  // 小屏给品牌名留出空间：只保留头像
+  .username {
     display: none;
   }
 
-  .brand-toggle {
-    display: inline-flex;
+  .nav-user {
+    gap: var(--spacing-sm);
   }
 }
 
@@ -464,21 +585,83 @@ const handleUserAction = async (key) => {
   flex-direction: column;
   gap: var(--spacing-sm);
   padding: var(--spacing-md);
+  min-height: 100%;
 }
 
 .drawer-item {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--border-radius-medium);
+  padding: 10px var(--spacing-md);
   color: var(--text-secondary);
   text-decoration: none;
+  border-radius: var(--radius-input);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    transform: translateY(-1px);
+  }
 }
 
 .drawer-item.router-link-active {
   background: var(--primary-color-light);
   color: var(--primary-color);
+  font-weight: var(--font-weight-semibold);
+}
+
+// 抽屉底部：有问题联系小雪
+.drawer-contact {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 14px;
+  // 有富余空间时贴到抽屉底部，内容超高时紧跟在列表之后
+  margin-top: auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-card);
+  box-shadow: var(--clay-shadow-sm);
+
+  &__emoji {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    background: var(--primary-color-light);
+    border-radius: var(--radius-circle);
+    flex-shrink: 0;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  &__meta {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+  }
+
+  &__value {
+    font-size: var(--font-size-xs);
+    color: var(--primary-color);
+    overflow-wrap: anywhere;
+  }
 }
 
 /* 禁用样式：灰化、鼠标禁止、无hover效果 */

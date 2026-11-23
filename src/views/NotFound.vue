@@ -13,7 +13,8 @@
 
         <div class="error-text">
           <h1>页面未找到</h1>
-          <p>抱歉，您访问的页面不存在或已被移除。</p>
+          <p>抱歉，这个页面不存在或已被移除 (´･ω･`)</p>
+          <p class="error-hint">回到首页，继续用战魂小助手吧～</p>
         </div>
 
         <div class="error-actions">
@@ -37,7 +38,9 @@ const router = useRouter();
 <style scoped lang="scss">
 .not-found-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background:/n    radial-gradient(circle at 12% 12%, rgba(255, 143, 177, 0.12), transparent 34%),
+    radial-gradient(circle at 88% 8%, rgba(199, 184, 234, 0.12), transparent 30%),
+    var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,6 +92,12 @@ const router = useRouter();
     opacity: 0.9;
     margin: 0;
   }
+}
+
+.error-hint {
+  margin-top: var(--spacing-sm) !important;
+  font-size: var(--font-size-md) !important;
+  opacity: 0.75 !important;
 }
 
 .error-actions {

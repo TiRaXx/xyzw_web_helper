@@ -5,8 +5,12 @@
       <div class="container">
         <div class="nav-content">
           <div class="nav-brand">
-            <img src="/icons/xiaoyugan.png" alt="XYZW" class="brand-logo" />
-            <span class="brand-text">XYZW 游戏管理系统</span>
+            <img
+              src="/icons/xiaoyugan.png"
+              alt="战魂小助手"
+              class="brand-logo"
+            />
+            <span class="brand-text">战魂小助手</span>
           </div>
 
           <div class="mobile-menu-button">
@@ -135,8 +139,10 @@
         <div class="container">
           <div class="hero-content">
             <div class="hero-text">
-              <h1 class="hero-title">专业的游戏管理平台</h1>
-              <p class="hero-subtitle">让游戏变得更简单，让管理变得更高效</p>
+              <h1 class="hero-title">战魂小助手 ✦</h1>
+              <p class="hero-subtitle">
+                咸鱼之王俱乐部 · 多窗口游戏与 Token 管理，一起轻松开工～
+              </p>
               <div class="hero-actions">
                 <n-button
                   type="primary"
@@ -150,7 +156,7 @@
                     )
                   "
                 >
-                  {{ authStore.isAuthenticated ? "进入控制台" : "立即开始" }}
+                  {{ authStore.isAuthenticated ? "进入控制台" : "立即开工" }} ✨
                 </n-button>
                 <n-button
                   text
@@ -189,8 +195,10 @@
       <section ref="featuresSection" class="features-section">
         <div class="container">
           <div class="section-header">
-            <h2 class="section-title">核心功能</h2>
-            <p class="section-subtitle">为您提供全方位的游戏管理解决方案</p>
+            <h2 class="section-title">能帮你做什么 ✨</h2>
+            <p class="section-subtitle">
+              多窗口、脚本、Token，一站式打理俱乐部日常
+            </p>
           </div>
 
           <div class="features-grid">
@@ -235,21 +243,31 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-brand">
-            <img src="/icons/xiaoyugan.png" alt="XYZW" class="footer-logo" />
-            <span class="footer-text">XYZW 游戏管理系统</span>
+            <img
+              src="/icons/xiaoyugan.png"
+              alt="战魂小助手"
+              class="footer-logo"
+            />
+            <span class="footer-text">战魂小助手</span>
           </div>
           <div class="footer-links">
             <router-link to="/changelog" class="footer-link">
               更新日志
             </router-link>
-            <a href="#" class="footer-link">关于我们</a>
-            <a href="#" class="footer-link">隐私政策</a>
-            <a href="#" class="footer-link">服务条款</a>
-            <a href="#" class="footer-link">联系我们</a>
+            <router-link to="/admin/about" class="footer-link">
+              关于
+            </router-link>
+            <span class="footer-link footer-contact"> 💬 有问题联系小雪 </span>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 XYZW. All rights reserved.</p>
+          <p>
+            &copy; 2026 战魂小助手 · 基于 {{ ORIGINAL_PROJECT.name }} 二次开发 ·
+            {{ ORIGINAL_PROJECT.license }}
+          </p>
+          <p class="footer-contact-detail">
+            {{ CONTACT_XIAOXUE_LABEL }}：{{ CONTACT_XIAOXUE }}
+          </p>
         </div>
       </div>
     </footer>
@@ -260,6 +278,8 @@
 import { Cube, Menu, PersonCircle, Ribbon, Settings } from "@vicons/ionicons5";
 import { markRaw, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { CONTACT_XIAOXUE, CONTACT_XIAOXUE_LABEL } from "@/constants/contact";
+import { ORIGINAL_PROJECT } from "@/constants/release";
 import { useAuthStore } from "@/stores/auth";
 
 const router = useRouter();
@@ -319,10 +339,10 @@ const features = ref([
 
 // 统计数据
 const stats = ref([
-  { id: 1, number: "1000+", label: "活跃用户" },
-  { id: 2, number: "50K+", label: "管理角色" },
-  { id: 3, number: "100K+", label: "完成任务" },
-  { id: 4, number: "99.9%", label: "系统稳定性" },
+  { id: 1, number: "多开", label: "窗口并排游戏" },
+  { id: 2, number: "本地", label: "Token 存储" },
+  { id: 3, number: "双主题", label: "深浅随心切换" },
+  { id: 4, number: "v0.2", label: "当前版本" },
 ]);
 
 // 滚动到功能区域
@@ -343,7 +363,9 @@ onMounted(() => {
 <style scoped lang="scss">
 .home-page {
   min-height: 100dvh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background:/n    radial-gradient(circle at 12% 12%, rgba(255, 143, 177, 0.12), transparent 34%),
+    radial-gradient(circle at 88% 8%, rgba(199, 184, 234, 0.12), transparent 30%),
+    var(--bg-primary);
   position: relative;
   overflow-x: hidden;
   padding-bottom: calc(var(--spacing-md) + env(safe-area-inset-bottom));
@@ -596,7 +618,7 @@ onMounted(() => {
 // 统计区域
 .stats-section {
   padding: var(--spacing-2xl) 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 }
 
 /* 深色主题下统计区背景 */
@@ -674,6 +696,19 @@ onMounted(() => {
   padding-top: var(--spacing-lg);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.6);
+
+  p {
+    margin: 0;
+  }
+}
+
+.footer-contact {
+  cursor: default;
+}
+
+.footer-contact-detail {
+  margin-top: var(--spacing-xs) !important;
+  font-size: var(--font-size-sm);
 }
 
 // 响应式设计

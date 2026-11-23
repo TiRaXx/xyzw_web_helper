@@ -246,11 +246,11 @@ window.__multi = {
 };
 
 async function boot() {
-  for (const src of ["patch.js", "src/settings.js", "game-defines.js", "utils/boot.js", "gm-support.js", "xyzw.ready.js", "1.js", "4.js", "cocos2d-js-min.js", "main.js"]) {
+  for (const src of ["patch.js", "src/settings.js", "game-defines.js", "utils/boot.js", "gm-support.js", "xyzw.ready.js", "1.js", "4.js", "script-center.js", "cocos2d-js-min.js", "main.js"]) {
     if (disposed) return;
     report("loading", src === "cocos2d-js-min.js" ? "正在加载游戏引擎" : "正在准备游戏启动脚本");
     await new Promise((resolve, reject) => {
-      const script = document.createElement("script"); script.src = src + "?v=20261028.1"; script.charset = "utf-8";
+      const script = document.createElement("script"); script.src = src + "?v=20261123.2"; script.charset = "utf-8";
       script.onload = resolve; script.onerror = () => reject(new Error("脚本加载失败：" + src));
       document.body.append(script);
     });

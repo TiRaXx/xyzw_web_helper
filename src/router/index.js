@@ -35,6 +35,15 @@ const my_routes = [
     }),
   },
   {
+    path: "/changelog",
+    name: "Changelog",
+    component: () => import("@/views/Changelog.vue"),
+    meta: {
+      title: "更新日志",
+      requiresToken: false,
+    },
+  },
+  {
     path: "/game",
     name: "GamePlayer",
     component: () => import("@/views/GamePlayer.vue"),
@@ -113,6 +122,14 @@ const my_routes = [
         meta: {
           title: "个人设置",
           requiresToken: true,
+        },
+      },
+      {
+        path: "about",
+        name: "About",
+        component: () => import("@/views/About.vue"),
+        meta: {
+          title: "关于",
         },
       },
       // Full backup / restore page (export or import all accounts + config).
@@ -217,8 +234,8 @@ router.beforeEach((to, from, next) => {
 
   // 设置页面标题
   document.title = to.meta.title
-    ? `${to.meta.title} - XYZW 游戏管理系统`
-    : "XYZW 游戏管理系统";
+    ? `${to.meta.title} - 战魂小助手`
+    : "战魂小助手";
   if (to.name === "LegionWar" && !isNowInLegionWarTime()) {
     next("/admin/dashboard");
     return;

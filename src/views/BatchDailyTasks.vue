@@ -1322,7 +1322,7 @@
                   height: 80px;
                   border-radius: 50%;
                   overflow: hidden;
-                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
                   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
                   display: flex;
                   align-items: center;
@@ -1462,7 +1462,7 @@
                     </div>
                     <div
                       class="info-value"
-                      style="font-size: 16px; font-weight: 600; color: #667eea"
+                      style="font-size: 16px; font-weight: 600; color: var(--primary-color)"
                     >
                       {{ recipientInfo.power }} {{ recipientInfo.powerUnit }}
                     </div>

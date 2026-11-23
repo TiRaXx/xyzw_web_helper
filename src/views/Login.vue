@@ -5,10 +5,14 @@
       <div class="login-card glass">
         <div class="card-header">
           <div class="brand">
-            <img src="/icons/xiaoyugan.png" alt="XYZW" class="brand-logo" />
-            <h1 class="brand-title">XYZW 游戏管理系统</h1>
+            <img
+              src="/icons/xiaoyugan.png"
+              alt="战魂小助手"
+              class="brand-logo"
+            />
+            <h1 class="brand-title">战魂小助手</h1>
           </div>
-          <p class="welcome-text">欢迎回来，请登录您的账户</p>
+          <p class="welcome-text">欢迎回来，登录后继续俱乐部日常～</p>
         </div>
 
         <div class="card-body">
@@ -112,14 +116,21 @@
               立即注册
             </n-button>
           </div>
+
+          <div class="contact-hint">
+            <p>首次使用遇到问题？联系小雪～</p>
+            <p class="contact-hint-detail">
+              {{ CONTACT_XIAOXUE_LABEL }}：{{ CONTACT_XIAOXUE }}
+            </p>
+          </div>
         </div>
       </div>
 
       <!-- 功能展示 -->
       <div class="features-showcase">
         <div class="showcase-header">
-          <h2>为什么选择 XYZW？</h2>
-          <p>专业的游戏管理平台，让游戏变得更轻松</p>
+          <h2>为什么选择战魂小助手？ ✨</h2>
+          <p>多窗口、脚本与 Token，一处打理更省心</p>
         </div>
 
         <div class="features-list">
@@ -154,6 +165,7 @@ import { Cube, PersonCircle, Ribbon, Settings } from "@vicons/ionicons5";
 import { useMessage } from "naive-ui";
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+import { CONTACT_XIAOXUE, CONTACT_XIAOXUE_LABEL } from "@/constants/contact";
 import { useAuthStore } from "@/stores/auth";
 
 const router = useRouter();
@@ -264,7 +276,9 @@ onMounted(() => {
 <style scoped lang="scss">
 .login-page {
   min-height: 100dvh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background:/n    radial-gradient(circle at 12% 12%, rgba(255, 143, 177, 0.12), transparent 34%),
+    radial-gradient(circle at 88% 8%, rgba(199, 184, 234, 0.12), transparent 30%),
+    var(--bg-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -384,6 +398,26 @@ onMounted(() => {
   span {
     margin-right: var(--spacing-sm);
   }
+}
+
+.contact-hint {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-input, var(--border-radius-medium));
+  background: var(--primary-color-light);
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+
+  p {
+    margin: 0;
+  }
+}
+
+.contact-hint-detail {
+  color: var(--text-tertiary);
+  font-size: var(--font-size-xs);
 }
 
 // 功能展示区域

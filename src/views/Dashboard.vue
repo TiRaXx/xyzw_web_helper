@@ -8,9 +8,9 @@
           <div class="welcome-content">
             <div class="welcome-text">
               <h1>
-                欢迎回来，{{ tokenStore.selectedToken?.name || "游戏玩家" }}！
+                欢迎回来，{{ tokenStore.selectedToken?.name || "游戏玩家" }}～ ✦
               </h1>
-              <p>今天是 {{ currentDate }}，继续您的游戏管理之旅吧</p>
+              <p>今天是 {{ currentDate }}，一起把俱乐部日常搞定吧</p>
             </div>
             <div class="welcome-actions">
               <n-button
@@ -29,7 +29,7 @@
 
         <!-- 快速操作 -->
         <section class="quick-actions-section">
-          <h2 class="section-title">快速操作</h2>
+          <h2 class="section-title">快速操作 ✨</h2>
           <div class="actions-grid">
             <div
               v-for="action in quickActions"
@@ -195,35 +195,35 @@ const quickActions = ref([
     id: 1,
     icon: GameController,
     title: "打开游戏",
-    description: "使用当前Token直接进入游戏",
+    description: "使用当前 Token 直接进入游戏",
     action: "open-game",
   },
   {
     id: 2,
     icon: Cube,
     title: "游戏功能",
-    description: "访问所有游戏功能模块",
+    description: "进入全部游戏功能模块",
     action: "game-features",
   },
   {
     id: 3,
     icon: Add,
-    title: "添加Token",
-    description: "快速添加新的游戏Token",
+    title: "添加 Token",
+    description: "快速导入新的游戏 Token",
     action: "add-token",
   },
   {
     id: 4,
     icon: CheckmarkCircle,
     title: "批量任务",
-    description: "批量执行任务",
+    description: "一次安排多个账号的日常",
     action: "batch-daily-tasks",
   },
   {
     id: 5,
     icon: Cloud,
-    title: "WebSocket测试",
-    description: "测试WebSocket连接和游戏命令",
+    title: "WebSocket 测试",
+    description: "检查连接状态与游戏命令",
     action: "websocket-test",
   },
 ]);

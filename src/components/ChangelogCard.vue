@@ -147,7 +147,7 @@ const getTypeLabel = (type) => {
   font-weight: 700;
   padding: 8px 16px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: white;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
@@ -271,7 +271,7 @@ const getTypeLabel = (type) => {
   --bg-color: #f9fafb;
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
-  --primary-color: #667eea;
+  --primary-color: var(--color-primary, #ff8fb1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -281,7 +281,7 @@ const getTypeLabel = (type) => {
     --bg-color: #111827;
     --text-primary: #f9fafb;
     --text-secondary: #d1d5db;
-    --primary-color: #818cf8;
+    --primary-color: var(--color-primary-hover, #ff7aa5);
   }
 }
 

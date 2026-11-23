@@ -1,8 +1,8 @@
 {
-  "name": "xyzw-token-manager",
-  "version": "2.0.0",
+  "name": "zhanhun-helper",
+  "version": "0.2.0",
   "type": "module",
-  "description": "XYZW游戏Token管理器 - 支持Base64导入和WebSocket连接管理",
+  "description": "战魂小助手 - 面向咸鱼之王俱乐部的多窗口游戏与 Token 管理工具",
   "main": "src/main.js",
   "scripts": {
     "testr": "node ./test/roleToken.js",

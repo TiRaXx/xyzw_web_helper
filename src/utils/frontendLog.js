@@ -28,10 +28,18 @@ function genSessionId() {
   return `${Date.now().toString(36)}-${rand}`;
 }
 
+const SENSITIVE_QUERY =
+  /([?&](?:token|roleToken|p|wsUrl|api)=)[^&#\s]*/gi;
+
+/** 脱敏 URL/路径中的凭据类 query 参数，避免埋点落盘 token。 */
+function sanitizeSensitive(value) {
+  return String(value).replace(SENSITIVE_QUERY, "$1***");
+}
+
 function currentPage() {
   if (typeof window === "undefined") return "";
   const { pathname, search, hash } = window.location;
-  return `${pathname}${search}${hash}`.slice(0, 300);
+  return sanitizeSensitive(`${pathname}${search}${hash}`).slice(0, 300);
 }
 
 /** 把任意值安全地转成可 JSON 序列化的形式（截断过长内容） */
@@ -44,8 +52,11 @@ function safeMeta(meta) {
         if (seen.has(value)) return "[Circular]";
         seen.add(value);
       }
-      if (typeof value === "string" && value.length > 800) {
-        return `${value.slice(0, 800)}…`;
+      if (typeof value === "string") {
+        const sanitized = sanitizeSensitive(value);
+        if (sanitized !== value) return sanitized.slice(0, 800);
+        if (value.length > 800) return `${value.slice(0, 800)}…`;
+        return value;
       }
       if (typeof value === "function") return "[Function]";
       return value;
@@ -60,9 +71,13 @@ function safeMeta(meta) {
 function normalizeError(err) {
   if (!err) return {};
   if (err instanceof Error) {
-    return { name: err.name, message: err.message, stack: (err.stack || "").slice(0, 1500) };
+    return {
+      name: err.name,
+      message: sanitizeSensitive(err.message),
+      stack: sanitizeSensitive(err.stack || "").slice(0, 1500),
+    };
   }
-  return { message: String(err).slice(0, 500) };
+  return { message: sanitizeSensitive(String(err)).slice(0, 500) };
 }
 
 function flush(useBeacon = false) {
@@ -108,7 +123,7 @@ export function logEvent(level, message, meta) {
   const entry = {
     ts: new Date().toISOString(),
     level,
-    message: String(message ?? "").slice(0, MAX_MESSAGE_LEN),
+    message: sanitizeSensitive(String(message ?? "")).slice(0, MAX_MESSAGE_LEN),
     page: currentPage(),
     sessionId,
     seq: (seq += 1),

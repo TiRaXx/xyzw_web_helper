@@ -1,10 +1,10 @@
-# XYZW Web Helper
+# 战魂小助手
 
 <div align="center">
 
-![XYZW Logo](public/xiaoyugan.png)
+![战魂小助手 Logo](public/xiaoyugan.png)
 
-**🎮 咸鱼自动化web平台**
+**🎮 咸鱼之王俱乐部多窗口游戏与 Token 管理工具**
 
 [![Vue 3](https://img.shields.io/badge/Vue-3.4+-4FC08D?style=flat&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.0+-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -12,9 +12,22 @@
 [![WebSocket](https://img.shields.io/badge/WebSocket-BON%20Protocol-FF6B6B?style=flat&logo=websocket&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg?style=flat)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-基于Vue 3 + Vite的现代化XYZW游戏辅助工具，支持Token管理、WebSocket通信、游戏自动化等功能。
+基于 Vue 3 + Vite 的俱乐部多窗口游戏助手，支持多账号并排游戏、统一脚本中心、Token 管理与 WebSocket 通信。
+
+> 本项目基于 [w1249178256/xyzw_web_helper](https://github.com/w1249178256/xyzw_web_helper) 二次开发，原作者署名保留，遵循 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 协议。
 
 </div>
+
+---
+
+## 💬 有问题联系小雪
+
+首次使用遇到问题、Token 导入失败，或想反馈 bug / 提建议，都可以联系小雪：
+
+- **联系方式**：`QQ 群 / 微信 / 邮箱`（占位，上线前替换为实际值）
+- **占位值**：`此处填写`
+
+> 联系方式统一维护在 `src/constants/contact.js` 的 `CONTACT_XIAOXUE` 与 `CONTACT_XIAOXUE_LABEL`，页面（登录 / 注册 / 关于 / 页脚 / 侧边栏）均引用该配置，替换一次即可全站生效。
 
 ---
 
@@ -745,7 +758,8 @@ git push origin feature/new-feature
 
 ## 📞 联系方式
 
-- **项目主页**：[GitHub Repository](https://github.com/w1249178256/xyzw_web_helper)
+- **联系小雪**：`QQ 群 / 微信 / 邮箱`（占位：`此处填写`，见 `src/constants/contact.js`）
+- **原项目主页**：[GitHub Repository](https://github.com/w1249178256/xyzw_web_helper)
 - **问题反馈**：[GitHub Issues](https://github.com/w1249178256/xyzw_web_helper/issues)
 - **联系邮箱**：[发邮件给我](mailto:stevefeng59@gmail.com)
 - **TG群组**：[欢迎加入](https://t.me/+SEDhXWN_OpNiMGI1)

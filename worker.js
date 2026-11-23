@@ -128,14 +128,27 @@ export default {
   },
 };
 
+function resourceError(message, status) {
+  const error = new Error(message);
+  error.status = status;
+  return error;
+}
+
 // Fixed public game origins. No account, cookie or authorization headers are forwarded.
 export function gameResourceTarget(value, method) {
-  const url = new URL(value);
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    throw resourceError("Invalid resource URL", 400);
+  }
   const prefix = "/api/link-games/";
   if (!url.pathname.startsWith(prefix))
-    throw new Error("Unsupported resource path");
+    throw resourceError("Unsupported resource path", 400);
   const path = url.pathname.slice(prefix.length);
-  if (path === "manifest" && ["GET", "HEAD", "POST"].includes(method)) {
+  if (path === "manifest") {
+    if (!["GET", "HEAD", "POST"].includes(method))
+      throw resourceError("Unsupported resource method", 400);
     return new URL(
       `https://xxz-xyzw.hortorgames.com/login/manifest${url.search}`,
     );
@@ -147,13 +160,12 @@ export function gameResourceTarget(value, method) {
     scripts: "xyzw11001.baby",
   };
   const slash = path.indexOf("/");
+  if (slash < 0) throw resourceError("Unsupported resource path", 400);
   const alias = path.slice(0, slash);
-  if (
-    slash < 0 ||
-    !Object.hasOwn(hosts, alias) ||
-    !["GET", "HEAD"].includes(method)
-  )
-    throw new Error("Unsupported resource request");
+  if (!Object.hasOwn(hosts, alias))
+    throw resourceError("Unknown resource alias", 404);
+  if (!["GET", "HEAD"].includes(method))
+    throw resourceError("Unsupported resource method", 400);
   const target = new URL(`https://${hosts[alias]}`);
   target.pathname = path.slice(slash);
   target.search = url.search;
@@ -164,8 +176,14 @@ export async function handleGameResource(request, fetcher = fetch) {
   let target;
   try {
     target = gameResourceTarget(request.url, request.method);
-  } catch {
-    return new Response("Unsupported game resource", { status: 400 });
+  } catch (error) {
+    return new Response("Unsupported game resource", {
+      status: error?.status === 404 ? 404 : 400,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+        "x-content-type-options": "nosniff",
+      },
+    });
   }
   const headers = new Headers();
   for (const key of ["accept", "content-type"]) {
@@ -221,6 +239,10 @@ export async function handleGameResource(request, fetcher = fetch) {
       "content-type":
         upstream.headers.get("content-type") || "application/octet-stream",
     });
+    // Keep the restored scripts proxy byte-compatible with its original
+    // behavior; other game-resource origins still get MIME hardening.
+    if (target.hostname !== "xyzw11001.baby")
+      responseHeaders.set("x-content-type-options", "nosniff");
     if (upstream.headers.has("location"))
       responseHeaders.set("x-game-location", upstream.headers.get("location"));
     if (!upstream.body || request.method === "HEAD") {
@@ -262,7 +284,11 @@ export async function handleGameResource(request, fetcher = fetch) {
     cleanup();
     return new Response("Game resource request failed", {
       status: 502,
-      headers: { "x-game-status": "502" },
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+        "x-content-type-options": "nosniff",
+        "x-game-status": "502",
+      },
     });
   }
 }

@@ -5,11 +5,15 @@
       <div class="page-header">
         <div class="header-content">
           <div class="header-top">
-            <img src="/icons/xiaoyugan.png" alt="XYZW" class="brand-logo" />
+            <img
+              src="/icons/xiaoyugan.png"
+              alt="战魂小助手"
+              class="brand-logo"
+            />
             <!-- 主题切换按钮 -->
             <ThemeToggle />
           </div>
-          <h1>游戏Token管理</h1>
+          <h1>Token 管理 ✦</h1>
         </div>
       </div>
 
@@ -38,7 +42,7 @@
             <NIcon>
               <Add />
             </NIcon>
-            添加游戏Token
+            导入 Token 📥
           </h2>
         </template>
         <div class="card-header">
@@ -118,7 +122,7 @@
         <div class="section-header">
           <div class="section-main">
             <div class="section-title-row">
-              <h2>我的Token列表 ({{ tokenStore.gameTokens.length }}个)</h2>
+              <h2>我的 Token 列表 ({{ tokenStore.gameTokens.length }} 个)</h2>
               <n-radio-group v-model:value="viewMode" size="small">
                 <n-radio-button value="list">列表</n-radio-button>
                 <n-radio-button value="card">卡片</n-radio-button>
@@ -222,7 +226,7 @@
                   <Add />
                 </NIcon>
               </template>
-              添加Token
+              导入 Token 📥
             </n-button>
 
             <n-dropdown :options="bulkOptions" @select="handleBulkAction">
@@ -699,9 +703,9 @@
         <template #image>
           <i class="mdi:bed-empty"></i>
         </template>
-        还没有导入任何Token
+        <p>还没有导入任何 Token，先导入一个开工吧～ 🐟</p>
         <a-button type="link" @click="openshowImportForm"
-          >打开Token管理</a-button
+          >打开 Token 管理</a-button
         >
       </a-empty>
     </div>
@@ -2211,13 +2215,13 @@ onUnmounted(() => {
 }
 .token-import-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bg-primary);
   padding: var(--spacing-xl) 0;
 }
 
 /* 深色主题下的页面背景 */
 [data-theme="dark"] .token-import-page {
-  background: linear-gradient(135deg, #0f172a 0%, #1f2937 100%);
+  background: var(--bg-primary);
 }
 
 .container {
@@ -2944,11 +2948,11 @@ onUnmounted(() => {
 }
 
 :global([data-theme="dark"] .token-import-modal .arco-modal) {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: var(--bg-secondary) !important;
 }
 
 [data-theme="dark"] .token-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bg-secondary);
 }
 </style>
 

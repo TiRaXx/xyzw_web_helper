@@ -227,6 +227,25 @@
     return work;
   }
 
+  /* 统一脚本中心通过此 bridge 读取/加载内置脚本，避免重复实现加载逻辑 */
+  window.__gsjcBridge = {
+    base: scriptBase,
+    list: localScripts.map(function (s) {
+      return { file: s.file, name: s.name, group: s.group || "", versionName: s.versionName || "" };
+    }),
+    load: function (file) {
+      var script = null;
+      for (var i = 0; i < localScripts.length; i++) if (localScripts[i].file === file) script = localScripts[i];
+      if (!script) return Promise.reject(new Error("未知内置脚本"));
+      return loadLocalScript(script);
+    },
+    isLoaded: function (file) {
+      var s = null;
+      for (var i = 0; i < localScripts.length; i++) if (localScripts[i].file === file) s = localScripts[i];
+      return !!(s && window._gsjcFreeLoaded && window._gsjcFreeLoaded[scriptBase + s.file]);
+    }
+  };
+
   function ensureAnimStyle() {
     if (document.getElementById("gsjc-anim-style")) return;
     var s = document.createElement("style");
@@ -350,7 +369,10 @@
   /* ==================== 启动 ==================== */
   function bootstrap() {
     if (window.__multi && (window.__multi.loginOnly || window.__multi.disposed)) return;
-    injectGameButton();
+    // 延迟注入，给统一脚本中心让位；中心不可用时保留原 UI 作为 fallback。
+    setTimeout(function () {
+      if (!window.__xyzwScriptCenterActive) injectGameButton();
+    }, 3000);
   }
 
   if (document.readyState === "loading") {

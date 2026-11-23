@@ -2296,7 +2296,7 @@ onMounted(() => {
 // 联盟分类标签栏
 .alliance-tabs-section {
   display: flex;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   padding: var(--spacing-xs);
   gap: var(--spacing-xs);
   flex-shrink: 0;

@@ -8,7 +8,7 @@
             <i class="icon-history">📜</i>
             更新日志
           </h1>
-          <p class="page-description">查看系统的最新更新和改进内容</p>
+          <p class="page-description">战魂小助手的最新更新与改进都在这里</p>
         </div>
 
         <!-- 筛选器 -->
@@ -75,7 +75,9 @@
         <!-- 空状态 -->
         <div v-if="filteredChangelogs.length === 0" class="empty-state">
           <div class="empty-icon">📭</div>
-          <p class="empty-text">暂无该类型的更新日志</p>
+          <p class="empty-text">
+            这一类型暂时还没有更新日志，换个筛选看看吧 🍃
+          </p>
           <button class="reset-filter-btn" @click="selectedType = 'all'">
             重置筛选
           </button>
@@ -88,7 +90,7 @@
           <div class="subscribe-icon">🔔</div>
           <div class="subscribe-content">
             <h3 class="subscribe-title">订阅更新通知</h3>
-            <p class="subscribe-desc">第一时间获取系统更新信息</p>
+            <p class="subscribe-desc">第一时间收到战魂小助手的新消息</p>
           </div>
           <button class="subscribe-btn" @click="handleSubscribe">
             {{ isSubscribed ? "已订阅" : "立即订阅" }}
@@ -339,7 +341,7 @@ onMounted(() => {
 }
 
 .subscribe-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   border-radius: 12px;
   padding: 32px;
   display: flex;
@@ -372,7 +374,7 @@ onMounted(() => {
 .subscribe-btn {
   padding: 12px 32px;
   background: white;
-  color: #667eea;
+  color: var(--primary-color);
   border: none;
   border-radius: 8px;
   font-size: 14px;
@@ -409,7 +411,7 @@ onMounted(() => {
   --border-color: #e5e7eb;
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
-  --primary-color: #667eea;
+  --primary-color: var(--color-primary, #ff8fb1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -419,7 +421,7 @@ onMounted(() => {
     --border-color: #374151;
     --text-primary: #f9fafb;
     --text-secondary: #d1d5db;
-    --primary-color: #818cf8;
+    --primary-color: var(--color-primary-hover, #ff7aa5);
   }
 }
 

@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ABadge: typeof import('@arco-design/web-vue')['Badge']
+    AboutFooter: typeof import('./src/components/AboutFooter.vue')['default']
     AButton: typeof import('@arco-design/web-vue')['Button']
     ACard: typeof import('@arco-design/web-vue')['Card']
     ADatePicker: typeof import('@arco-design/web-vue')['DatePicker']
@@ -20,6 +21,7 @@ declare module 'vue' {
     AListItem: typeof import('@arco-design/web-vue')['ListItem']
     AModal: typeof import('@arco-design/web-vue')['Modal']
     ApexChallenge: typeof import('./src/components/Apex/ApexChallenge.vue')['default']
+    AppAnnouncement: typeof import('./src/components/AppAnnouncement.vue')['default']
     ASpace: typeof import('@arco-design/web-vue')['Space']
     ATag: typeof import('@arco-design/web-vue')['Tag']
     AUpload: typeof import('@arco-design/web-vue')['Upload']

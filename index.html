@@ -3,8 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>XYZW 游戏管理系统</title>
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta
+      name="description"
+      content="战魂小助手 - 咸鱼之王俱乐部多窗口游戏与 Token 管理工具"
+    />
+    <title>战魂小助手</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon-cute.svg" />
     <style>
       * {
         margin: 0;
@@ -14,18 +18,13 @@
 
       body {
         font-family:
-          "SF Pro Display",
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
+          "LXGW WenKai",
           "PingFang SC",
-          "Hiragino Sans GB",
           "Microsoft YaHei",
-          "Helvetica Neue",
-          Helvetica,
-          Arial,
+          system-ui,
           sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #fff8f0;
+        color: #4a3b45;
         min-height: 100vh;
       }
 
@@ -38,14 +37,21 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        color: white;
+        color: #ff8fb1;
         font-size: 18px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #251e30;
+          color: #f5edef;
+        }
       }
     </style>
   </head>
   <body>
     <div id="app">
-      <div class="loading">正在加载应用...</div>
+      <div class="loading">正在加载战魂小助手…</div>
     </div>
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/xyzw/cocos2d-js-min.js"></script>

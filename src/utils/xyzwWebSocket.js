@@ -10,6 +10,19 @@ import { sleep } from "./helperTaskRunner.js";
 import { gameLogger, wsLogger } from "./logger.js";
 
 /**
+ * 生成不含明文凭据的缓存键。
+ * WebSocket URL 的 query 含登录 token，不能作为全局缓存的 key 暴露。
+ */
+function hashUrl(value) {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0).toString(36);
+}
+
+/**
  * 错误码映射表
  * 用于将服务器返回的错误码转换为可读的错误描述
  */
@@ -571,7 +584,10 @@ export class XyzwWebSocketClient {
     this.reconnectResetTimer = null;
     this.dialogResetTimer = null;
     this.heartbeatInterval = heartbeatMs;
-    this.sendCache = $CacheManager.getCache(this.url, { timeout: 1000 });
+    this.sendCache = $CacheManager.getCache(
+      `${this.url.split("?")[0]}#${hashUrl(this.url)}`,
+      { timeout: 1000 },
+    );
 
     this.dialogStatus = false;
     this.messageListener = null;

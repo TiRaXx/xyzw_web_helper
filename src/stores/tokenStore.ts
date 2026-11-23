@@ -900,7 +900,11 @@ export const useTokenStore = defineStore("tokens", () => {
           return;
         }
         wsLogger.wsConnect(tokenId);
-        logInfo("WS 连接成功", { tokenId, sessionId: currentSessionId, url: wsUrl });
+        logInfo("WS 连接成功", {
+          tokenId,
+          sessionId: currentSessionId,
+          url: wsUrl.split("?")[0],
+        });
         if (wsConnections.value[tokenId]) {
           wsConnections.value[tokenId].status = "connected";
           wsConnections.value[tokenId].connectedAt = new Date().toISOString();

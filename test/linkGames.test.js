@@ -111,6 +111,24 @@ test("resource routes support the manifest and fixed game origins", () => {
   );
 });
 
+test("restored scripts proxy preserves legacy host behavior", async () => {
+  const target = gameResourceTarget(
+    "https://helper.example/api/link-games/scripts/file.js",
+    "GET",
+  );
+  assert.equal(target.hostname, "xyzw11001.baby");
+  const response = await handleGameResource(
+    new Request("https://helper.example/api/link-games/scripts/file.js"),
+    async () =>
+      new Response("ok", {
+        headers: { "content-type": "application/javascript" },
+      }),
+  );
+  assert.equal(response.headers.get("x-game-status"), "200");
+  assert.equal(response.headers.has("x-content-type-options"), false);
+  await response.arrayBuffer();
+});
+
 test("public resource proxy strips credentials and exposes redirects for validation", async () => {
   let called = 0;
   const response = await handleGameResource(
@@ -160,7 +178,7 @@ test("resource proxy preserves binary bytes and rejects invalid requests before 
       throw new Error("must not fetch");
     },
   );
-  assert.equal(invalid.status, 400);
+  assert.equal(invalid.status, 404);
   const oversized = await handleGameResource(
     new Request("https://helper.example/api/link-games/manifest", {
       method: "POST",

@@ -1,3 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css");
+
+// ============================================================================
+// 战魂小助手 · Kawaii 日系软萌 × 粘土拟态 设计变量
+// 说明：既有变量名（--primary-color / --bg-primary / --text-* / --border-* /
+// --spacing-* / --font-size-* / --transition-* 等）全部保留，仅替换取值，
+// 避免既有页面断链；新增粘土阴影、圆角、字体等 token。
+// ============================================================================
+
+:root {
+  // ----- 基础色板 -----------------------------------------------------------
+  // 主题粉
+  --color-primary: #ff8fb1;
+  --color-primary-hover: #ff7aa5;
+  --color-primary-soft: #ffe8f0;
+  // 辅助色
+  --color-mint: #a8e6cf;
+  --color-cream: #ffeaa7;
+  --color-sky: #a5c9ff;
+  --color-lavender: #c7b8ea;
+  // 语义色
+  --color-success: #7fd8a4;
+  --color-warning: #ffc966;
+  --color-error: #ff8a9b;
+  --color-info: #a5c9ff;
+  // 中性色
+  --color-text: #4a3b45;
+  --color-text-secondary: #9c8a93;
+  --color-text-tertiary: #b5a6ae;
+  --color-text-disabled: #cbbfc4;
+  // 表面
+  --color-page: #fff8f0;
+  --color-card: #ffffff;
+  --color-card-hover: #fff5f7;
+
+  // ----- 主题色（沿用旧变量名） --------------------------------------------
+  --primary-color: var(--color-primary);
+  --primary-color-hover: var(--color-primary-hover);
+  // 旧代码里用作 active 态浅底
+  --primary-color-light: var(--color-primary-soft);
+
+  // ----- 辅助色（沿用旧变量名） --------------------------------------------
+  --secondary-color: var(--color-lavender);
+  --success-color: var(--color-success);
+  --warning-color: var(--color-warning);
+  --error-color: var(--color-error);
+  --info-color: var(--color-info);
+
+  // ----- 中性文字 ----------------------------------------------------------
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-secondary);
+  --text-tertiary: var(--color-text-tertiary);
+  --text-disabled: var(--color-text-disabled);
+
+  // ----- 背景 --------------------------------------------------------------
+  // --bg-primary 为页面底色（旧代码大量直接铺在容器上）
+  --bg-primary: var(--color-page);
+  --bg-secondary: var(--color-card);
+  --bg-tertiary: var(--color-card-hover);
+  --bg-overlay: rgba(74, 59, 69, 0.42);
+  // 顶部导航：奶油玻璃
+  --nav-bg: rgba(255, 248, 240, 0.86);
+
+  // ----- 兼容旧代码的别名（旧组件直接引用这些名字） ----------------------
+  // 注意：值引用上面的 token，深色主题下会自动跟随覆写。
+  --text-color: var(--text-primary);
+  --bg-color: var(--bg-secondary);
+  --border-color: var(--border-light);
+
+  // ----- 边框 --------------------------------------------------------------
+  --border-light: rgba(255, 143, 177, 0.18);
+  --border-medium: rgba(255, 143, 177, 0.28);
+  --border-dark: rgba(255, 143, 177, 0.38);
+
+  // ----- 阴影（粘土拟态：外投影 + 内高光 + 内暗部） ------------------------
+  --clay-shadow:
+    8px 8px 16px rgba(180, 130, 150, 0.18),
+    inset 6px 6px 12px rgba(255, 255, 255, 0.85),
+    inset -6px -6px 12px rgba(220, 170, 190, 0.22);
+  --clay-shadow-sm:
+    4px 4px 10px rgba(180, 130, 150, 0.16),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.8),
+    inset -3px -3px 6px rgba(220, 170, 190, 0.18);
+  --clay-shadow-hover:
+    10px 12px 22px rgba(180, 130, 150, 0.22),
+    inset 6px 6px 12px rgba(255, 255, 255, 0.9),
+    inset -6px -6px 12px rgba(220, 170, 190, 0.26);
+  --clay-shadow-inset:
+    inset 4px 4px 8px rgba(180, 130, 150, 0.2),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+  --clay-border: 2px solid rgba(255, 143, 177, 0.28);
+
+  // 旧阴影变量（保留，映射到粘土阴影）
+  --shadow-light: var(--clay-shadow-sm);
+  --shadow-medium: var(--clay-shadow);
+  --shadow-heavy: var(--clay-shadow-hover);
+
+  // ----- 圆角 --------------------------------------------------------------
+  // 旧变量（保留）
+  --border-radius-small: 12px;
+  --border-radius-medium: 16px;
+  --border-radius-large: 20px;
+  --border-radius-xl: 24px;
+  // 新语义圆角
+  --radius-button: 20px;
+  --radius-card: 24px;
+  --radius-input: 16px;
+  --radius-modal: 28px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  // ----- 间距 --------------------------------------------------------------
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  // ----- 字体 --------------------------------------------------------------
+  --font-family:
+    "LXGW WenKai", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display:
+    "Nunito", "LXGW WenKai", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 32px;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  // ----- 行高 --------------------------------------------------------------
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.8;
+
+  // ----- 动效 --------------------------------------------------------------
+  --ease-kawaii: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-fast: 0.18s var(--ease-kawaii);
+  --transition-normal: 0.25s var(--ease-kawaii);
+  --transition-slow: 0.45s var(--ease-kawaii);
+
+  // ----- Z-index -----------------------------------------------------------
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+}
+
+// ============================================================================
+// 深色主题（深梅底）。data-theme 与 .dark 双钩子，兼容既有切换逻辑。
+// ============================================================================
+[data-theme="dark"],
+.dark {
+  --color-primary: #ff9bc0;
+  --color-primary-hover: #ffb3d0;
+  --color-primary-soft: #4a3550;
+
+  --color-mint: #8fd6bc;
+  --color-cream: #ffe0a3;
+  --color-sky: #9dbcf5;
+  --color-lavender: #b9a9e0;
+
+  --color-success: #7fd8a4;
+  --color-warning: #ffc966;
+  --color-error: #ff8a9b;
+  --color-info: #9dbcf5;
+
+  --color-text: #f5edef;
+  --color-text-secondary: #b3a3b0;
+  --color-text-tertiary: #93838f;
+  --color-text-disabled: #6f6070;
+
+  --color-page: #251e30;
+  --color-card: #3a3045;
+  --color-card-hover: #453a52;
+
+  --primary-color: var(--color-primary);
+  --primary-color-hover: var(--color-primary-hover);
+  --primary-color-light: var(--color-primary-soft);
+
+  --secondary-color: var(--color-lavender);
+  --success-color: var(--color-success);
+  --warning-color: var(--color-warning);
+  --error-color: var(--color-error);
+  --info-color: var(--color-info);
+
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-secondary);
+  --text-tertiary: var(--color-text-tertiary);
+  --text-disabled: var(--color-text-disabled);
+
+  --bg-primary: var(--color-page);
+  --bg-secondary: var(--color-card);
+  --bg-tertiary: var(--color-card-hover);
+  --bg-overlay: rgba(10, 6, 14, 0.68);
+  --nav-bg: rgba(37, 30, 48, 0.88);
+
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-dark: rgba(255, 255, 255, 0.22);
+
+  --clay-shadow:
+    8px 8px 16px rgba(0, 0, 0, 0.35),
+    inset 6px 6px 12px rgba(255, 255, 255, 0.06),
+    inset -6px -6px 12px rgba(120, 90, 130, 0.3);
+  --clay-shadow-sm:
+    4px 4px 10px rgba(0, 0, 0, 0.35),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.06),
+    inset -3px -3px 6px rgba(120, 90, 130, 0.3);
+  --clay-shadow-hover:
+    10px 12px 22px rgba(0, 0, 0, 0.42),
+    inset 6px 6px 12px rgba(255, 255, 255, 0.08),
+    inset -6px -6px 12px rgba(120, 90, 130, 0.34);
+  --clay-shadow-inset:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.35),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.06);
+  --clay-border: 2px solid rgba(255, 155, 192, 0.3);
+
+  --shadow-light: var(--clay-shadow-sm);
+  --shadow-medium: var(--clay-shadow);
+  --shadow-heavy: var(--clay-shadow-hover);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-xs: 12px;
+    --font-size-sm: 13px;
+    --font-size-md: 15px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-2xl: 22px;
+    --font-size-3xl: 28px;
+
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 24px;
+    --spacing-2xl: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --font-size-md: 14px;
+    --spacing-md: 10px;
+  }
+}
+
 // 全局样式重置
 * {
   margin: 0;
@@ -8,32 +270,66 @@
 html {
   height: 100%;
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {
   height: 100%;
-  font-family:
-    "SF Pro Display",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "PingFang SC",
-    "Hiragino Sans GB",
-    "Microsoft YaHei",
-    "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: var(--font-family);
   font-size: var(--font-size-md);
   line-height: var(--line-height-normal);
+  letter-spacing: 0.01em;
   color: var(--text-primary);
   background: var(--bg-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+// 深色时同步原生控件配色（不覆盖任何文字颜色）
+html[data-theme="dark"],
+html.dark {
+  color-scheme: dark;
 }
 
 #app {
+  position: relative;
   min-height: 100vh;
+  font-family: var(--font-family);
+  color: var(--text-primary);
+  // 奶油底 / 深梅底：淡淡的星星点点，透明度过低不会干扰阅读
+  background-color: var(--bg-primary);
+  background-image:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(255, 143, 177, 0.05) 0 1.5px,
+      transparent 1.6px
+    ),
+    radial-gradient(
+      circle at 68% 34%,
+      rgba(199, 184, 234, 0.05) 0 1.5px,
+      transparent 1.6px
+    ),
+    radial-gradient(
+      circle at 38% 72%,
+      rgba(168, 230, 207, 0.05) 0 1.5px,
+      transparent 1.6px
+    ),
+    radial-gradient(
+      circle at 86% 82%,
+      rgba(255, 234, 167, 0.05) 0 1.5px,
+      transparent 1.6px
+    );
+  background-size:
+    180px 180px,
+    240px 240px,
+    210px 210px,
+    300px 300px;
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
 }
 
 // 链接样式
@@ -77,24 +373,35 @@ img {
   height: auto;
 }
 
-// 滚动条样式
+// 滚动条样式（粉色系）
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
+  background: transparent;
+  border-radius: var(--radius-pill);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
+  background: rgba(255, 143, 177, 0.42);
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  background-clip: content-box;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(255, 122, 165, 0.7);
+    background-clip: content-box;
   }
+}
+
+// 键盘焦点态：统一粉色描边（只作用于可点击元素，避免与 Naive 输入框焦点环叠加）
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 // 工具类
@@ -526,5 +833,167 @@ img {
   .arco-modal-body {
     max-height: 70vh !important;
     overflow-y: auto !important;
+  }
+}
+
+// ============================================================================
+// Kawaii 粘土拟态可复用类
+// 说明：均为「可选增强」类，未挂载到既有元素的默认样式上，避免影响现有布局。
+// ============================================================================
+
+// 粘土卡片：软投影 + 内高光 + 内暗部
+.clay-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-card);
+  box-shadow: var(--clay-shadow);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background-color var(--transition-normal);
+}
+
+// 粘土按钮：主按钮加 2px 粉色描边
+.clay-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: 10px 20px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: #fff;
+  cursor: pointer;
+  background: var(--primary-color);
+  border: var(--clay-border);
+  border-radius: var(--radius-button);
+  box-shadow: var(--clay-shadow-sm);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background-color var(--transition-fast);
+
+  &:hover {
+    background: var(--primary-color-hover);
+    box-shadow: var(--clay-shadow);
+    transform: translateY(-2px) scale(1.03);
+  }
+
+  &:active {
+    box-shadow: var(--clay-shadow-inset);
+    transform: scale(0.96);
+    transition-duration: 0.1s;
+  }
+
+  &:disabled,
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+    box-shadow: none;
+  }
+
+  // 次级/幽灵按钮
+  &.is-ghost {
+    color: var(--primary-color);
+    background: var(--bg-secondary);
+
+    &:hover {
+      color: var(--primary-color-hover);
+      background: var(--bg-tertiary);
+    }
+  }
+}
+
+// 粘土悬停：卡片抬升
+.clay-hover {
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background-color var(--transition-normal);
+
+  &:hover {
+    background: var(--bg-tertiary);
+    box-shadow: var(--clay-shadow-hover);
+    transform: translateY(-4px);
+  }
+}
+
+// 标题字体：圆润、加粗
+.kawaii-title {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+
+  @media (min-width: 769px) {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+// 柔和分隔线
+.soft-divider {
+  width: 100%;
+  height: 1px;
+  margin: var(--spacing-md) 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-medium) 20%,
+    var(--border-medium) 80%,
+    transparent
+  );
+  border: none;
+}
+
+// 空状态/加载装饰：仅此处允许少量软萌符号
+.kawaii-empty {
+  padding: var(--spacing-xl) var(--spacing-md);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+// 路由切换：淡入 + 上移 12px
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition:
+    opacity var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+// 尊重系统的减少动效偏好
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .clay-hover:hover,
+  .clay-button:hover,
+  .clay-button:active {
+    transform: none;
   }
 }
