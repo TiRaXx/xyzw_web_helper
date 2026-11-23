@@ -1158,45 +1158,6 @@ export class XyzwWebSocketClient {
         // 编码并发送
         const bin = this.registry.encodePacket(raw);
 
-        // 调试埋点：把本客户端发出的组队命令原始帧也录进前端埋点日志，
-        // 便于和游戏页抓到的同一命令做字节级对比（仅开发环境）
-        if (
-          import.meta.env?.DEV &&
-          /^matchteam_|^team_setteam$/.test(raw.cmd)
-        ) {
-          try {
-            const bytes = new Uint8Array(bin);
-            let binary = "";
-            for (let i = 0; i < bytes.length; i += 0x8000) {
-              binary += String.fromCharCode.apply(
-                null,
-                bytes.subarray(i, i + 0x8000),
-              );
-            }
-            fetch("/frontend-log", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                logs: [
-                  {
-                    ts: new Date().toISOString(),
-                    level: "debug",
-                    message: `helper-ws:${raw.cmd}`,
-                    page: "/helper-ws",
-                    meta: {
-                      dir: "out",
-                      kind: "bin",
-                      b64: btoa(binary),
-                      ws: "helper",
-                    },
-                  },
-                ],
-              }),
-            }).catch(() => {});
-          } catch {
-            // 忽略埋点失败
-          }
-        }
         if (
           this.socket !== socket ||
           !this.connected ||

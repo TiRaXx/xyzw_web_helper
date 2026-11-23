@@ -213,6 +213,7 @@ async function createStore() {
         tokenLogger: logger,
         wsLogger: logger,
       },
+      "@/utils/frontendLog": { logInfo: () => {} },
       "@/utils/randomSeed": { generateRandomSeed: () => 1 },
       "@/utils/token": { setAuthUserRateLimiterCallback() {} },
       "@/utils/tokenLogin": { getTokenErrorMessage },
