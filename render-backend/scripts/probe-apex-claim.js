@@ -13,8 +13,10 @@
  * token.json 格式（roleToken 等字段可从前端「复制 Token」拿到，整体是 JSON 或它的 base64）：
  *   { "roleToken": "…", "roleId": 123, "sessId": 1, "connId": 2, "isRestore": 0, "name": "测试号" }
  */
+import { Buffer } from "node:buffer";
 import fs from "node:fs";
 import path from "node:path";
+import process from "node:process";
 import { GameClient } from "../lib/gameClient.js";
 
 /** 错误码 → 含义。用于判断「命令名是否猜对」，这是本脚本的核心判据。 */

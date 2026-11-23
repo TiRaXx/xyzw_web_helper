@@ -16,8 +16,10 @@
  *
  * 不写服务器，纯下载 + 打印。
  */
+import { Buffer } from "node:buffer";
 import fs from "node:fs";
 import path from "node:path";
+import process from "node:process";
 import { GameClient } from "../lib/gameClient.js";
 
 const BASE = "https://xxz-xyzw-res.hortorgames.com";
