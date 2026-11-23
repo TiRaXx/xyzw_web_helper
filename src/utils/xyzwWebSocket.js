@@ -364,6 +364,20 @@ export function registerDefaultCommands(reg) {
     .register("warguess_startguess")
     .register("warguess_getguesscoinreward")
     .register("legion_payloadsignup") // 蟠桃报名
+    // —— 蟠桃战场服（sid2）实时指令：由 PayloadBattleClient 经独立连接发送，
+    //    注册于此以便 registry.build 正确封装报文（body 由调用方 params 决定）——
+    .register("payload_enterbf")
+    .register("payload_ping")
+    .register("payload_startbattle")
+    .register("payload_startmarch")
+    .register("payload_cancelmarch")
+    .register("payload_startchangecarpath")
+    .register("payload_startpickitem")
+    .register("payload_updateflag")
+    .register("payload_useitem")
+    .register("payload_useskill")
+    .register("payload_setbattleteam")
+    .register("payload_getteaminfo")
 
     // 珍宝阁相关
     .register("collection_claimfreereward")

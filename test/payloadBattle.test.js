@@ -36,6 +36,7 @@ test("XyzwWebSocketClient registers official payload battle commands and builds 
     "./bonProtocol.js": { g_utils: utils },
     "./logger.js": { gameLogger: logger, wsLogger: logger },
     "./helperTaskRunner.js": { sleep: async () => {} },
+    "./bgTicker.js": { onBgTick: () => () => {} },
   };
   const globals = {
     WebSocket: { OPEN: 1 },
